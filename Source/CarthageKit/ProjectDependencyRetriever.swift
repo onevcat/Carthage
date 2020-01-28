@@ -844,14 +844,6 @@ public final class ProjectDependencyRetriever: DependencyRetrieverProtocol {
                     .moveFileURLsIntoDirectory(destinationDirectoryURL)
                     .then(
                         Frameworks.dSYMForFramework(frameworkSourceURL, inDirectoryURL: sourceDirectoryURL)
-                            .attemptMap { dsymURL -> Result<URL, CarthageError> in
-                                if dependencySourceURL.isExistingDirectory {
-                                    return DebugSymbolsMapper.mapSymbolLocations(frameworkURL: frameworkSourceURL, dsymURL: dsymURL, sourceURL: dependencySourceURL, urlPrefixMapping: (sourceDirectoryURL, destinationDirectoryURL))
-                                        .map { _ in dsymURL }
-                                } else {
-                                    return .success(dsymURL)
-                                }
-                            }
                             .moveFileURLsIntoDirectory(destinationDirectoryURL)
                     )
                     .then(
